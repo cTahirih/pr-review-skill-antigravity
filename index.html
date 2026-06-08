@@ -1,6 +1,4 @@
-
 <!doctype html>
-
 <html>
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
@@ -9,445 +7,256 @@
   <title>Crea tu primer AI Code Reviewer con Antigravity IDE</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
   <style>
-    .success {
-      color: #1e8e3e;
-    }
-    .error {
-      color: red;
-    }
+    .success { color: #1e8e3e; }
+    .error { color: red; }
   </style>
 </head>
 <body>
-  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
-  <google-codelab codelab-gaid=""
-                  id="pr-review-skill-antigravity"
-                  title="Crea tu primer AI Code Reviewer con Antigravity IDE"
-                  environment="web"
-                  feedback-link="">
-    
-      <google-codelab-step label="feedback link: https://github.com/gdg-arequipa/codelabs/issues" duration="0">
-        
+  <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
+  <google-codelab codelab-gaid="" codelab-ga4id=""
+    id="pr-review-skill-antigravity"
+    title="Crea tu primer AI Code Reviewer con Antigravity IDE"
+    environment="web"
+    feedback-link="https://github.com/gdg-arequipa/codelabs/issues">
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Overview" duration="0">
-        <p>En este codelab vas a construir una <strong>skill de revisión de Pull Requests</strong> usando <strong>Antigravity IDE</strong>. Al terminar, tendrás un asistente de IA que actuará como un Senior Software Developer y podrá hacer code reviews detallados y de calidad profesional en segundos.</p>
-<h2 is-upgraded>¿Qué es Antigravity IDE?</h2>
-<p>Antigravity IDE es un entorno de desarrollo aumentado con IA que te permite crear <strong>Skills</strong>: comportamientos personalizados que le indican a la IA cómo debe ayudarte en tareas específicas. Piensa en una Skill como un &#34;perfil experto&#34; que puedes activar cuando lo necesitas.</p>
-<h2 is-upgraded>¿Qué es una Skill?</h2>
-<p>Una Skill es una combinación de:</p>
-<ul>
-<li>Un <strong>rol</strong> que le asignas a la IA (ej. &#34;Actúa como Senior Developer&#34;)</li>
-<li><strong>Instrucciones específicas</strong> sobre cómo debe responder</li>
-<li><strong>Criterios de evaluación</strong> adaptados a tu contexto</li>
-</ul>
-<h2 is-upgraded>¿Cómo funciona esto en la práctica?</h2>
-<p>Sin una Skill configurada, si le pegas código a la IA, obtendrás una respuesta genérica. Con tu Skill activada, la IA sabrá exactamente qué revisar, qué priorizar y cómo comunicar sus hallazgos con el tono de un revisor experimentado.</p>
-<h2 is-upgraded>Lo que aprenderás</h2>
-<ul>
-<li>✅ Crear y configurar una Skill en Antigravity IDE</li>
-<li>✅ Diseñar un prompt de sistema efectivo para code review</li>
-<li>✅ Configurar criterios específicos de revisión de PRs</li>
-<li>✅ Probar la skill con código real de baja calidad</li>
-<li>✅ Extender la skill con capacidades avanzadas</li>
-</ul>
+    <google-codelab-step label="Overview" duration="5">
+      <p>En este codelab vas a construir una <strong>skill de revisión de Pull Requests</strong> usando <strong>Antigravity IDE</strong>. Al terminar, tendrás un asistente de IA que actuará como un Senior Software Developer y podrá hacer code reviews detallados y de calidad profesional en segundos.</p>
+      <h2 is-upgraded>¿Qué es Antigravity IDE?</h2>
+      <p>Antigravity IDE es un entorno de desarrollo aumentado con IA que te permite crear <strong>Skills</strong>: comportamientos personalizados que le indican a la IA cómo debe ayudarte en tareas específicas. Piensa en una Skill como un "perfil experto" que puedes activar cuando lo necesitas.</p>
+      <h2 is-upgraded>¿Qué es una Skill?</h2>
+      <ul>
+        <li>Un <strong>rol</strong> que le asignas a la IA (ej. "Actúa como Senior Developer")</li>
+        <li><strong>Instrucciones específicas</strong> sobre cómo debe responder</li>
+        <li><strong>Criterios de evaluación</strong> adaptados a tu contexto</li>
+      </ul>
+      <h2 is-upgraded>Lo que aprenderás</h2>
+      <ul>
+        <li>✅ Crear y configurar una Skill en Antigravity IDE</li>
+        <li>✅ Diseñar un prompt de sistema efectivo para code review</li>
+        <li>✅ Configurar criterios específicos de revisión de PRs</li>
+        <li>✅ Probar la skill con código real de baja calidad</li>
+        <li>✅ Extender la skill con capacidades avanzadas</li>
+      </ul>
+    </google-codelab-step>
 
+    <google-codelab-step label="Prerequisites" duration="2">
+      <h2 is-upgraded>Conocimientos previos</h2>
+      <ul>
+        <li>Familiaridad básica con Git y Pull Requests</li>
+        <li>Saber leer código (en cualquier lenguaje)</li>
+        <li>No se requiere experiencia previa con Antigravity IDE</li>
+      </ul>
+      <h2 is-upgraded>Herramientas necesarias</h2>
+      <ul>
+        <li><strong>Antigravity IDE</strong> instalado — <a href="https://antigravity.dev" target="_blank">Descargar aquí</a></li>
+        <li>Conexión a internet</li>
+      </ul>
+      <aside class="special">
+        <p><strong>Nota:</strong> Si es tu primera vez usando Antigravity IDE, completa el onboarding antes de continuar. Solo toma 2 minutos.</p>
+      </aside>
+    </google-codelab-step>
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Prerequisites" duration="0">
-        <p>Antes de empezar, asegúrate de tener lo siguiente:</p>
-<h2 is-upgraded>Conocimientos previos</h2>
-<ul>
-<li>Familiaridad básica con Git y Pull Requests</li>
-<li>Saber leer código (en cualquier lenguaje)</li>
-<li>No se requiere experiencia previa con Antigravity IDE</li>
-</ul>
-<h2 is-upgraded>Herramientas necesarias</h2>
-<ul>
-<li><strong>Antigravity IDE</strong> instalado y con sesión activa<br> 👉 <a href="https://antigravity.dev" target="_blank">Descargar Antigravity IDE</a></li>
-<li>Conexión a internet</li>
-<li>Un editor de texto para preparar el código de prueba (opcional)</li>
-</ul>
-<aside class="special"><p><strong>Nota:</strong> Si es tu primera vez usando Antigravity IDE, abre la aplicación y completa el flujo de onboarding antes de continuar. Solo toma 2 minutos.</p>
-</aside>
+    <google-codelab-step label="Paso 1: Preparación en Antigravity IDE" duration="5">
+      <h2 is-upgraded>1.1 Abre Antigravity IDE</h2>
+      <p>Inicia la aplicación. Verás el panel principal con las siguientes secciones:</p>
+      <ul>
+        <li><strong>Chat</strong>: donde interactúas con la IA</li>
+        <li><strong>Skills</strong>: donde gestionas tus comportamientos personalizados</li>
+        <li><strong>Context</strong>: donde puedes adjuntar archivos o fragmentos de código</li>
+      </ul>
+      <h2 is-upgraded>1.2 Navega a Skills y crea una nueva</h2>
+      <p>Haz clic en <strong>"+ New Skill"</strong> y completa los primeros dos campos:</p>
+      <ul>
+        <li><strong>Name:</strong> <code>PR Reviewer</code></li>
+        <li><strong>Description:</strong> <code>Revisa Pull Requests como un Senior Software Developer. Detecta bugs, problemas de calidad, seguridad y mantenibilidad.</code></li>
+      </ul>
+      <aside class="note">
+        <p><strong>¿Por qué importa el nombre?</strong> Puedes tener múltiples skills activas. Un nombre claro te ayuda a cambiar entre ellas rápidamente.</p>
+      </aside>
+    </google-codelab-step>
 
+    <google-codelab-step label="Paso 2: Diseñar el comportamiento" duration="10">
+      <p>El System Prompt es el corazón de tu Skill. Aquí le dices a la IA <strong>quién es</strong> y <strong>cómo debe pensar</strong>.</p>
+      <h2 is-upgraded>2.1 Copia el System Prompt</h2>
+      <p>Ve al campo <strong>System Prompt</strong> de tu Skill y pega este contenido:</p>
+      <pre><code>Eres un Senior Software Developer con más de 10 años de experiencia en
+desarrollo de software, arquitectura de sistemas y mentorship de equipos.
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Paso 1: Preparación en Antigravity IDE" duration="0">
-        <h2 is-upgraded>1.1 Abre Antigravity IDE</h2>
-<p>Inicia la aplicación. Verás el panel principal con las siguientes secciones:</p>
-<ul>
-<li><strong>Chat</strong>: donde interactúas con la IA</li>
-<li><strong>Skills</strong>: donde gestionas tus comportamientos personalizados</li>
-<li><strong>Context</strong>: donde puedes adjuntar archivos o fragmentos de código</li>
-</ul>
-<h2 is-upgraded>1.2 Navega a la sección de Skills</h2>
-<p>En el panel lateral izquierdo, haz clic en <strong>&#34;Skills&#34;</strong> (ícono de rayo ⚡ o similar según tu versión).</p>
-<p>Verás la lista de skills existentes (si las hay) y un botón para crear una nueva.</p>
-<h2 is-upgraded>1.3 Crea una nueva Skill</h2>
-<p>Haz clic en <strong>&#34;+ New Skill&#34;</strong> o <strong>&#34;Crear Skill&#34;</strong>.</p>
-<p>Aparecerá un formulario con los siguientes campos:</p>
-<table>
-<tr><td colspan="1" rowspan="1"><p>Campo</p>
-</td><td colspan="1" rowspan="1"><p>Descripción</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><strong>Name</strong></p>
-</td><td colspan="1" rowspan="1"><p>El nombre que identificará tu skill</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><strong>Description</strong></p>
-</td><td colspan="1" rowspan="1"><p>Un resumen corto de para qué sirve</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><strong>System Prompt</strong></p>
-</td><td colspan="1" rowspan="1"><p>Las instrucciones que definen el comportamiento de la IA</p>
-</td></tr>
-</table>
-<p>Completa los primeros dos campos así:</p>
-<ul>
-<li><strong>Name: </strong><code>PR Reviewer</code></li>
-<li><strong>Description: </strong><code>Revisa Pull Requests como un Senior Software Developer. Detecta bugs, problemas de calidad, seguridad y mantenibilidad.</code></li>
-</ul>
-<p>aside note <strong>¿Por qué importa el nombre?</strong> Puedes tener múltiples skills activas. Un nombre claro te ayuda a cambiar entre ellas rápidamente sin confundirte.</p>
-<p>Deja el campo <strong>System Prompt</strong> vacío por ahora. Lo completaremos en el siguiente paso.</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Paso 2: Diseñar el comportamiento de tu AI Reviewer" duration="0">
-        <p>El System Prompt es el corazón de tu Skill. Aquí le dices a la IA <strong>quién es</strong> y <strong>cómo debe pensar</strong>. Un buen prompt de sistema marca la diferencia entre una respuesta genérica y una revisión profesional.</p>
-<h2 is-upgraded>2.1 Copia el siguiente System Prompt</h2>
-<p>Ve al campo <strong>System Prompt</strong> de tu Skill y pega exactamente este contenido:</p>
-<pre><code>Eres un Senior Software Developer con más de 10 años de experiencia en desarrollo de software, arquitectura de sistemas y mentorship de equipos de desarrollo.
-
-Tu rol es revisar Pull Requests con el mismo nivel de detalle y profesionalismo que usarías en un equipo de alto rendimiento. Tu objetivo no es solo encontrar errores, sino ayudar al desarrollador a crecer.
+Tu rol es revisar Pull Requests con el mismo nivel de detalle y profesionalismo
+que usarías en un equipo de alto rendimiento. Tu objetivo no es solo encontrar
+errores, sino ayudar al desarrollador a crecer.
 
 ## Cómo debes revisar
 
-Cuando recibas código para revisar, analízalo en este orden:
-
-1. **Calidad del código**: ¿El código es limpio, legible y sigue buenas prácticas?
-2. **Mantenibilidad**: ¿Otro desarrollador puede entender y modificar este código fácilmente en 6 meses?
-3. **Seguridad**: ¿Hay vulnerabilidades obvias como inyección, exposición de datos sensibles o validaciones faltantes?
-4. **Legibilidad**: ¿Los nombres de variables, funciones y clases comunican su intención claramente?
-5. **Arquitectura**: ¿El código respeta la separación de responsabilidades y los principios SOLID básicos?
-6. **Mejoras concretas**: Siempre proporciona una versión mejorada del fragmento problemático.
+Analiza el código en este orden:
+1. Calidad del código: ¿Es limpio y sigue buenas prácticas?
+2. Mantenibilidad: ¿Otro desarrollador puede entenderlo en 6 meses?
+3. Seguridad: ¿Hay vulnerabilidades obvias?
+4. Legibilidad: ¿Los nombres comunican su intención?
+5. Arquitectura: ¿Respeta separación de responsabilidades?
+6. Mejoras concretas: Siempre proporciona código corregido.
 
 ## Formato de tu respuesta
-
-Estructura cada revisión así:
 
 ### 📋 Resumen ejecutivo
 Una o dos frases sobre el estado general del PR.
 
 ### 🔴 Crítico (debe corregirse antes del merge)
-Lista de problemas que bloquean el merge, con explicación y código corregido.
+Problemas que bloquean el merge, con código corregido.
 
 ### 🟡 Importante (debe corregirse pronto)
-Problemas de calidad o mantenibilidad que no bloquean pero son relevantes.
+Problemas de calidad o mantenibilidad.
 
 ### 🟢 Sugerencias (nice to have)
-Mejoras opcionales que elevarían la calidad del código.
+Mejoras opcionales.
 
 ### ✅ Lo que está bien
-Menciona brevemente qué se hizo correctamente. El feedback positivo también importa.
+Menciona qué se hizo correctamente.
 
-## Tono y estilo
+## Tono
+Sé directo pero constructivo. Critica el código, no al desarrollador.
+Responde siempre en español.</code></pre>
+      <h2 is-upgraded>2.2 Guarda la Skill</h2>
+      <p>Haz clic en <strong>"Guardar"</strong> o <strong>"Save"</strong>.</p>
+      <aside class="special">
+        <p>¡Bien hecho! Acabas de definir la personalidad y el método de trabajo de tu AI Reviewer.</p>
+      </aside>
+    </google-codelab-step>
 
-- Sé directo pero constructivo. Critica el código, no al desarrollador.
-- Usa frases como &#34;considera refactorizar&#34;, &#34;podría mejorarse&#34;, &#34;hay un riesgo aquí&#34;.
-- Evita el lenguaje pasivo-agresivo o condescendiente.
-- Si algo está bien hecho, dilo explícitamente.
-- Proporciona siempre un fragmento de código mejorado para los problemas críticos.
-
-## Idioma
-
-Responde siempre en español, a menos que el usuario te pida otro idioma.
-</code></pre>
-<h2 is-upgraded>2.2 Guarda la Skill</h2>
-<p>Haz clic en <strong>&#34;Guardar&#34;</strong> o <strong>&#34;Save&#34;</strong>.</p>
-<aside class="special"><p><strong>¡Bien hecho!</strong> Acabas de definir la personalidad y el método de trabajo de tu AI Reviewer. Este prompt le da contexto suficiente para generar revisiones estructuradas y accionables.</p>
-</aside>
-<h2 is-upgraded>¿Por qué funciona este prompt?</h2>
-<ul>
-<li><strong>Define un rol claro</strong> → La IA sabe desde qué perspectiva hablar</li>
-<li><strong>Establece un orden de análisis</strong> → Garantiza que no se salte ninguna categoría</li>
-<li><strong>Fuerza una estructura de respuesta</strong> → El output siempre es predecible y legible</li>
-<li><strong>Incluye instrucciones de tono</strong> → Evita respuestas frías o condescendientes</li>
-</ul>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Paso 3: Configurar la revisión de Pull Requests" duration="0">
-        <p>Ahora vamos a agregar instrucciones específicas para que la IA sepa cómo analizar los cambios de un PR. Esto complementa el System Prompt con criterios más técnicos.</p>
-<h2 is-upgraded>3.1 Edita tu Skill</h2>
-<p>Vuelve a la sección de Skills, abre <code>PR Reviewer</code> y busca un campo adicional como <strong>&#34;Instructions&#34;</strong>, <strong>&#34;User Context&#34;</strong> o <strong>&#34;Task Prompt&#34;</strong> (el nombre puede variar según la versión de Antigravity IDE).</p>
-<p>Si tu versión solo tiene el System Prompt, agrega la siguiente sección al final del prompt que ya tienes.</p>
-<h2 is-upgraded>3.2 Agrega los criterios de revisión de PR</h2>
-<p>Copia y pega este bloque al final de tu System Prompt (antes del cierre, si aplica):</p>
-<pre><code>## Criterios específicos para revisión de Pull Requests
-
-Cuando revises un Pull Request, evalúa explícitamente cada uno de estos puntos:
+    <google-codelab-step label="Paso 3: Configurar la revisión de PR" duration="8">
+      <p>Agrega instrucciones específicas para que la IA analice los cambios de un PR con criterios técnicos.</p>
+      <h2 is-upgraded>3.1 Agrega los criterios de revisión</h2>
+      <p>Copia este bloque al final de tu System Prompt:</p>
+      <pre><code>## Criterios específicos para revisión de Pull Requests
 
 ### Análisis de cambios
-- ¿El PR tiene un propósito claro y único? (Single Responsibility para PRs)
-- ¿El tamaño del PR es razonable o debería dividirse?
+- ¿El PR tiene un propósito claro y único?
+- ¿El tamaño es razonable o debería dividirse?
 
 ### Bugs potenciales
-- Condiciones de borde no contempladas (null, undefined, lista vacía, número negativo)
+- Condiciones de borde (null, undefined, lista vacía, número negativo)
 - Condiciones de carrera en código asíncrono
-- Manejo incorrecto de errores o excepciones silenciadas
-- Lógica de negocio incorrecta o incompleta
+- Errores silenciados sin try/catch
 
 ### Naming y legibilidad
-- Variables con nombres de una letra o ambiguos (i, j, temp, data, obj)
-- Funciones que hacen más de una cosa pero tienen un nombre que sugiere solo una
+- Variables con nombres de una letra (i, j, temp, data, obj)
 - Constantes mágicas sin nombre ni explicación
-- Comentarios que explican el &#34;qué&#34; en lugar del &#34;por qué&#34;
-
-### Patrones de diseño
-- Duplicación de código que podría extraerse
-- Lógica compleja que podría simplificarse
-- Uso incorrecto o innecesario de patrones como Singleton, Factory, etc.
+- Comentarios que explican el "qué" en lugar del "por qué"
 
 ### Performance
 - Consultas N+1 a base de datos o APIs
 - Operaciones costosas dentro de bucles
-- Falta de caché donde sería beneficioso
-- Renderizados innecesarios (si aplica a frontend)
 
 ### Testing
-- ¿El PR incluye tests para los cambios realizados?
-- ¿Los tests existentes cubren los casos de borde del nuevo código?
-- ¿Los tests son legibles y mantenibles?
-- ¿Se están testeando comportamientos o implementaciones?
-</code></pre>
-<h2 is-upgraded>3.3 Guarda los cambios</h2>
-<p>Haz clic en <strong>&#34;Guardar&#34;</strong>.</p>
-<p>aside note <strong>Tip profesional:</strong> Estos criterios son tu &#34;checklist invisible&#34;. La IA los revisará automáticamente cada vez que uses la skill, sin que tengas que pedirlo explícitamente. Puedes adaptarlos al stack tecnológico de tu equipo.</p>
+- ¿El PR incluye tests para los cambios?
+- ¿Los tests cubren casos de borde?
+- ¿Se testean comportamientos o implementaciones?</code></pre>
+      <aside class="note">
+        <p><strong>Tip:</strong> Estos criterios son tu "checklist invisible". La IA los revisará automáticamente cada vez que uses la skill.</p>
+      </aside>
+    </google-codelab-step>
 
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Paso 4: Probar la Skill con código real" duration="0">
-        <p>Llega el momento de la verdad. Vamos a probar tu skill con un fragmento de código con problemas reales.</p>
-<h2 is-upgraded>4.1 Activa tu Skill</h2>
-<p>En el panel de Chat de Antigravity IDE:</p>
-<ol type="1">
-<li>Busca el selector de Skills (generalmente un menú desplegable o ícono en la barra del chat)</li>
-<li>Selecciona <strong>&#34;PR Reviewer&#34;</strong></li>
-<li>Confirma que la skill está activa (debería aparecer un indicador visual)</li>
-</ol>
-<h2 is-upgraded>4.2 El código de prueba</h2>
-<p>Este es un ejemplo de código JavaScript con múltiples problemas. Cópialo completo y pégalo en el chat:</p>
-<pre><code language="language-javascript" class="language-javascript">// PR: Agregar función para procesar pedidos de usuarios
+    <google-codelab-step label="Paso 4: Probar la Skill" duration="10">
+      <p>Vamos a probar tu skill con un fragmento de código con problemas reales.</p>
+      <h2 is-upgraded>4.1 Activa tu Skill</h2>
+      <p>En el panel de Chat, selecciona <strong>"PR Reviewer"</strong> en el selector de Skills y confirma que está activa.</p>
+      <h2 is-upgraded>4.2 El código de prueba</h2>
+      <p>Copia este código completo y pégalo en el chat:</p>
+      <pre><code language="language-javascript" class="language-javascript">// PR: Agregar función para procesar pedidos de usuarios
 async function process(d) {
   var result = []
   var i = 0
-  
-  // obtener datos
+
   while (i &lt; d.length) {
     var item = d[i]
-    var user = await db.query(&#34;SELECT * FROM users WHERE id = &#34; + item.userId)
-    var product = await db.query(&#34;SELECT * FROM products WHERE id = &#34; + item.productId)
-    
-    if (user[0].status == &#34;active&#34;) {
+    var user = await db.query("SELECT * FROM users WHERE id = " + item.userId)
+    var product = await db.query("SELECT * FROM products WHERE id = " + item.productId)
+
+    if (user[0].status == "active") {
       var total = product[0].price * item.qty
       if (item.discount) {
         total = total - (total * item.discount / 100)
       }
-      result.push({
-        u: user[0].name,
-        p: product[0].name,
-        t: total
-      })
+      result.push({ u: user[0].name, p: product[0].name, t: total })
     }
-    
     i++
   }
-  
-  // guardar
+
   for (var j = 0; j &lt; result.length; j++) {
     db.save(result[j])
   }
-  
   return result
-}
-</code></pre>
-<h2 is-upgraded>4.3 El mensaje que debes enviar</h2>
-<p>Junto al código, escribe este mensaje en el chat:</p>
-<pre><code>Por favor revisa este PR. Es una función nueva que procesa pedidos de usuarios. 
-El desarrollador dice que &#34;funciona bien en local&#34;.
-</code></pre>
-<h2 is-upgraded>4.4 Resultado esperado</h2>
-<p>Tu AI Reviewer debería generar una respuesta estructurada similar a esta:</p>
-<p><strong>📋 Resumen ejecutivo</strong></p>
-<p>Este PR presenta una función para procesar pedidos con múltiples problemas críticos de seguridad, performance y calidad de código. Requiere cambios significativos antes del merge.</p>
-<p><strong>🔴 Crítico</strong></p>
-<p><strong>1. Inyección SQL</strong> El código concatena directamente parámetros del usuario en las queries SQL. Esto abre una vulnerabilidad crítica de SQL Injection.</p>
-<pre><code language="language-javascript" class="language-javascript">// ❌ Vulnerable
-&#34;SELECT * FROM users WHERE id = &#34; + item.userId
+}</code></pre>
+      <h2 is-upgraded>4.3 El mensaje que debes enviar</h2>
+      <pre><code>Por favor revisa este PR. Es una función nueva que procesa pedidos de usuarios.
+El desarrollador dice que "funciona bien en local".</code></pre>
+      <h2 is-upgraded>4.4 Resultado esperado</h2>
+      <p>Tu AI Reviewer debería detectar:</p>
+      <ul>
+        <li>🔴 <strong>SQL Injection</strong> por concatenación directa de parámetros</li>
+        <li>🔴 <strong>Patrón N+1</strong> — 2 queries por cada item del array</li>
+        <li>🔴 <strong>Errores silenciados</strong> — sin try/catch</li>
+        <li>🟡 <strong>Naming deficiente</strong> — <code>d</code>, <code>u</code>, <code>p</code>, <code>t</code></li>
+        <li>🟡 <strong>Uso de <code>var</code></strong> en lugar de <code>const</code>/<code>let</code></li>
+        <li>🟡 <strong>Comparación con <code>==</code></strong> en lugar de <code>===</code></li>
+      </ul>
+      <aside class="special">
+        <p>Si tu skill detectó los problemas de SQL Injection y N+1, ¡está funcionando correctamente!</p>
+      </aside>
+      <aside class="warning">
+        <p><strong>Si la respuesta es muy genérica:</strong> Verifica que la skill esté activa. Selecciónala nuevamente y reenvía el mensaje.</p>
+      </aside>
+    </google-codelab-step>
 
-// ✅ Usar queries parametrizadas
-&#34;SELECT * FROM users WHERE id = ?&#34;
-db.query(&#34;SELECT * FROM users WHERE id = ?&#34;, [item.userId])
-</code></pre>
-<p><strong>2. Problema N+1 en base de datos</strong> Se realizan 2 queries a la base de datos por cada item del array. Con 100 pedidos, serán 200 queries. Esto colapsará la base de datos en producción.</p>
-<pre><code language="language-javascript" class="language-javascript">// ✅ Mejor: obtener todos los IDs primero y hacer queries en batch
-const userIds = orders.map(o =&gt; o.userId)
-const users = await db.query(&#34;SELECT * FROM users WHERE id IN (?)&#34;, [userIds])
-</code></pre>
-<p><strong>3. Errores silenciados</strong> No hay ningún try/catch. Si cualquier query falla, la función lanzará una excepción no manejada.</p>
-<p><strong>🟡 Importante</strong></p>
-<p><strong>4. Naming deficiente</strong></p>
-<ul>
-<li><code>d</code> debería llamarse <code>orders</code> o <code>orderItems</code></li>
-<li><code>u</code>, <code>p</code>, <code>t</code> en el objeto resultado son ilegibles</li>
-<li><code>process</code> es demasiado genérico; considerar <code>processOrders</code></li>
-</ul>
-<p><strong>5. Uso de </strong></p>
-<p><strong><code>var</code></strong></p>
-<p><strong> en 2024</strong> Usar <code>var</code> tiene comportamientos de hoisting que pueden causar bugs sutiles. Reemplazar con <code>const</code> y <code>let</code>.</p>
-<p><strong>6. Comparación con </strong></p>
-<p><strong><code>==</code></strong></p>
-<p><strong> en lugar de </strong></p>
-<p><strong><code>===</code></strong><code>user[0].status == "active"</code> puede tener comportamientos inesperados. Usar siempre <code>===</code>.</p>
-<p><strong>🟢 Sugerencias</strong></p>
-<ul>
-<li>Agregar JSDoc para documentar parámetros y tipo de retorno</li>
-<li>Considerar validar que <code>d</code> no sea null o vacío al inicio</li>
-<li>Los tests para este código deberían cubrir: usuario inactivo, descuento cero, lista vacía</li>
-</ul>
-<p><strong>✅ Lo que está bien</strong></p>
-<ul>
-<li>La lógica de cálculo del descuento es correcta</li>
-<li>El uso de <code>async/await</code> en lugar de callbacks es el enfoque correcto</li>
-</ul>
-<aside class="special"><p><strong>¡Excelente!</strong> Si tu skill generó una respuesta con esta estructura y detectó al menos los problemas de SQL Injection y N+1, está funcionando correctamente. Los detalles exactos pueden variar según el modelo de IA que uses.</p>
-<p>aside warning <strong>Si la respuesta es muy genérica:</strong> Verifica que la skill esté activa antes de enviar el mensaje. Si el chat no muestra el nombre de la skill activa, selecciónala nuevamente y reenvía el mensaje.</p>
-</aside>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="Paso 5: Mejoras opcionales" duration="0">
-        <p>Tu skill ya es funcional. Estas son extensiones que puedes agregar para hacerla más poderosa y adaptada a tu equipo.</p>
-<h2 is-upgraded>5.1 Checklist de revisión</h2>
-<p>Agrega esto al final de tu System Prompt para que la IA incluya siempre un checklist de aprobación:</p>
-<pre><code>## Checklist de merge
-
-Al final de cada revisión, incluye este checklist en formato markdown:
-
-### Checklist de aprobación
+    <google-codelab-step label="Paso 5: Mejoras opcionales" duration="5">
+      <p>Tu skill ya es funcional. Estas extensiones la hacen más poderosa y adaptada a tu equipo.</p>
+      <h2 is-upgraded>5.1 Checklist de merge</h2>
+      <pre><code>## Checklist de aprobación
 - [ ] No hay vulnerabilidades de seguridad críticas
-- [ ] El código pasa los linters y formateadores del proyecto
+- [ ] El código pasa los linters del proyecto
 - [ ] Hay tests para los cambios principales
-- [ ] El naming es claro y consistente con el resto del proyecto
-- [ ] No hay código comentado ni TODOs sin ticket asociado
-- [ ] La documentación está actualizada si el API cambió
-</code></pre>
-<h2 is-upgraded>5.2 Convenciones de equipo</h2>
-<p>Si tu equipo tiene convenciones específicas, agrégalas así:</p>
-<pre><code>## Convenciones de nuestro equipo
-
+- [ ] El naming es claro y consistente
+- [ ] No hay código comentado ni TODOs sin ticket</code></pre>
+      <h2 is-upgraded>5.2 Convenciones de equipo</h2>
+      <pre><code>## Convenciones de nuestro equipo
 - Usamos el patrón Repository para acceso a datos
 - Los componentes React deben ser funcionales, no clases
-- Los nombres de funciones deben estar en camelCase y empezar con un verbo
-- Todos los endpoints deben tener manejo de errores con códigos HTTP apropiados
-- Los commits siguen Conventional Commits (feat:, fix:, refactor:, etc.)
-</code></pre>
-<h2 is-upgraded>5.3 Estándares de Clean Code</h2>
-<pre><code>## Principios que priorizamos
-
-- **Regla del Boy Scout**: el código debe quedar más limpio de como estaba
-- **DRY**: si ves duplicación, señálala aunque no sea en el scope del PR
-- **Funciones pequeñas**: si una función supera 20 líneas, probablemente hace demasiado
-- **Fail fast**: validar entradas al inicio de funciones, no en el medio
-</code></pre>
-<h2 is-upgraded>5.4 Revisión de seguridad extendida</h2>
-<pre><code>## Seguridad: puntos adicionales a revisar
-
+- Los commits siguen Conventional Commits (feat:, fix:, refactor:)</code></pre>
+      <h2 is-upgraded>5.3 Revisión de seguridad extendida</h2>
+      <pre><code>## Seguridad: puntos adicionales
 - Datos sensibles en logs (passwords, tokens, PII)
-- Headers de seguridad en endpoints HTTP
 - Autenticación y autorización en rutas nuevas
-- Dependencias nuevas: ¿tienen vulnerabilidades conocidas?
-- Secrets o credenciales hardcodeadas en el código
-</code></pre>
-<p>aside note <strong>Tip:</strong> No agregues todo de golpe. Empieza con tu skill base, úsala por una semana y agrega mejoras según lo que notes que le falta. Las mejores skills evolucionan con el uso.</p>
+- Secrets o credenciales hardcodeadas en el código</code></pre>
+      <aside class="note">
+        <p><strong>Tip:</strong> No agregues todo de golpe. Empieza con tu skill base, úsala una semana y agrega mejoras según lo que notes que le falta.</p>
+      </aside>
+    </google-codelab-step>
 
+    <google-codelab-step label="Congratulations" duration="1">
+      <h2 class="checklist" is-upgraded>Lo que construiste</h2>
+      <ul class="checklist">
+        <li>✅ Una Skill de revisión de PRs con Antigravity IDE</li>
+        <li>✅ System Prompt con rol, criterios y formato estructurado</li>
+        <li>✅ Criterios técnicos de revisión automática</li>
+        <li>✅ Capacidad para detectar SQL Injection, N+1 y problemas de calidad</li>
+      </ul>
+      <h2 is-upgraded>¿Qué sigue?</h2>
+      <ul>
+        <li>Toma el último PR que revisaste manualmente y compara con la skill</li>
+        <li>Comparte la skill con tu equipo</li>
+        <li>Itera colectivamente sobre los criterios</li>
+      </ul>
+      <p><strong>GDG Arequipa</strong> — Comparte tu skill terminada en el canal de la comunidad y cuéntanos qué problemas detectó que no habías notado tú. 🚀</p>
+    </google-codelab-step>
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="Congratulations" duration="0">
-        <p>🎉 <strong>¡Completaste el codelab!</strong></p>
-<p>Creaste una skill de revisión de Pull Requests completa y funcional en Antigravity IDE. Tu AI Reviewer ahora puede:</p>
-<ul>
-<li>Detectar problemas de seguridad como SQL Injection</li>
-<li>Identificar antipatrones de performance como N+1</li>
-<li>Evaluar calidad, naming y mantenibilidad</li>
-<li>Sugerir mejoras con código corregido</li>
-<li>Mantener un tono profesional y constructivo</li>
-</ul>
-<h2 is-upgraded>Lo que construiste</h2>
-<table>
-<tr><td colspan="1" rowspan="1"><p>Componente</p>
-</td><td colspan="1" rowspan="1"><p>Descripción</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>System Prompt</p>
-</td><td colspan="1" rowspan="1"><p>Define el rol y método de trabajo del reviewer</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>Criterios de PR</p>
-</td><td colspan="1" rowspan="1"><p>Checklist técnico de revisión automática</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>Formato de respuesta</p>
-</td><td colspan="1" rowspan="1"><p>Output estructurado y predecible</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>Extensiones opcionales</p>
-</td><td colspan="1" rowspan="1"><p>Convenciones, seguridad y Clean Code</p>
-</td></tr>
-</table>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="What&#39;s Next" duration="0">
-        <h2 is-upgraded>Úsalo en tu flujo real</h2>
-<p>La forma más rápida de sacarle valor es usarla hoy:</p>
-<ol type="1">
-<li>Toma el último PR que revisaste manualmente</li>
-<li>Pégalo en Antigravity IDE con tu skill activa</li>
-<li>Compara el resultado con tu revisión propia</li>
-</ol>
-<h2 is-upgraded>Comparte con tu equipo</h2>
-<p>Una skill compartida puede estandarizar la calidad de revisiones en todo el equipo:</p>
-<ul>
-<li>Exporta tu skill desde Antigravity IDE</li>
-<li>Documenta cómo activarla en el README del proyecto</li>
-<li>Itera colectivamente sobre los criterios</li>
-</ul>
-<h2 is-upgraded>Recursos para seguir aprendiendo</h2>
-<ul>
-<li>📖 <a href="https://antigravity.dev/docs" target="_blank">Documentación oficial de Antigravity IDE</a></li>
-<li>🧩 <a href="https://antigravity.dev/skills" target="_blank">Galería de Skills de la comunidad</a></li>
-<li>💬 <a href="https://discord.gg/antigravity" target="_blank">Comunidad en Discord</a></li>
-<li>🎓 Próximo codelab: <em>Crea una skill de generación de tests unitarios</em></li>
-</ul>
-<aside class="special"><p><strong>GDG Arequipa</strong> — Si llegaste hasta aquí a través de uno de nuestros eventos, ¡gracias por participar! Comparte tu skill terminada en el canal de la comunidad y cuéntanos qué problemas detectó que no habías notado tú. 🚀</p>
-</aside>
-
-
-      </google-codelab-step>
-    
   </google-codelab>
 
-  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
-  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
-  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
-  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
   <script src="//support.google.com/inapp/api.js"></script>
-
 </body>
 </html>
