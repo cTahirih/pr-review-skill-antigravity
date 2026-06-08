@@ -1,0 +1,30 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-06-07T20:52:01-05:00",
+  "id": "pr-review-skill-antigravity",
+  "duration": 0,
+  "title": "Crea tu primer AI Code Reviewer con Antigravity IDE",
+  "authors": "GDG Arequipa",
+  "summary": "Crea una skill de revisión de Pull Requests con Antigravity IDE y configura una IA que actúe como Senior Software Developer para hacer code reviews de calidad profesional.",
+  "source": "pr-review-skill-codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "developer tools",
+    "ai",
+    "code review"
+  ],
+  "tags": [
+    "ai-skills",
+    "antigravity-ide",
+    "code-review",
+    "developer-productivity",
+    "pull-requests"
+  ],
+  "url": "pr-review-skill-antigravity"
+}
