@@ -1,47 +1,70 @@
 <!doctype html>
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>Crea tu primer AI Code Reviewer con Antigravity IDE</title>
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet"
+    href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
   <style>
-    .success { color: #1e8e3e; }
-    .error { color: red; }
-    #done { display: none; }
+    .success {
+      color: #1e8e3e;
+    }
+
+    .error {
+      color: red;
+    }
+
+    #done {
+      display: none;
+    }
   </style>
 </head>
+
 <body>
   <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
-  <google-codelab codelab-gaid="" codelab-ga4id=""
-    id="pr-review-skill-antigravity"
-    title="Crea tu primer AI Code Reviewer con Antigravity IDE"
-    environment="web"
+  <google-codelab codelab-gaid="" codelab-ga4id="" id="pr-review-skill-antigravity"
+    title="Crea tu primer AI Code Reviewer con Antigravity IDE" environment="web"
     feedback-link="https://github.com/gdg-arequipa/codelabs/issues">
 
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 1: OVERVIEW                                          -->
+    <!-- ══════════════════════════════════════════════════════════ -->
     <google-codelab-step label="Overview" duration="5">
-      <p>En este codelab vas a construir una <strong>skill de revisión de Pull Requests</strong> usando <strong>Antigravity IDE</strong>. Al terminar, tendrás un asistente de IA que actuará como un Senior Software Developer y podrá hacer code reviews detallados y de calidad profesional en segundos.</p>
+      <p>En este codelab vas a construir una <strong>skill de envío de Pull Requests</strong> usando <strong>Antigravity
+          IDE</strong>. Al terminar, tendrás un asistente de IA que actuará como un Senior Software Developer y podrá
+        hacer un PR detallado y de calidad profesional en segundos.</p>
+
       <h2 is-upgraded>¿Qué es Antigravity IDE?</h2>
-      <p>Antigravity IDE es un entorno de desarrollo aumentado con IA que te permite crear <strong>Skills</strong>: comportamientos personalizados que le indican a la IA cómo debe ayudarte en tareas específicas. Piensa en una Skill como un "perfil experto" que puedes activar cuando lo necesitas.</p>
+      <p>Antigravity IDE es un entorno de desarrollo aumentado con IA que te permite crear <strong>Skills</strong>:
+        comportamientos personalizados que le indican a la IA cómo debe ayudarte en tareas específicas. Piensa en una
+        Skill como un "perfil experto" que puedes activar cuando lo necesitas.</p>
+
       <h2 is-upgraded>¿Qué es una Skill?</h2>
       <ul>
         <li>Un <strong>rol</strong> que le asignas a la IA (ej. "Actúa como Senior Developer")</li>
         <li><strong>Instrucciones específicas</strong> sobre cómo debe responder</li>
         <li><strong>Criterios de evaluación</strong> adaptados a tu contexto</li>
       </ul>
+
       <h2 is-upgraded>Lo que aprenderás</h2>
       <ul>
-        <li>✅ Crear y configurar una Skill en Antigravity IDE</li>
-        <li>✅ Diseñar un prompt de sistema efectivo para code review</li>
-        <li>✅ Configurar criterios específicos de revisión de PRs</li>
-        <li>✅ Probar la skill con código real de baja calidad</li>
-        <li>✅ Extender la skill con capacidades avanzadas</li>
+        <li>✅ Hacer fork del repositorio base del taller</li>
+        <li>✅ Entender qué es MCP y cómo conectar GitHub a Antigravity IDE</li>
+        <li>✅ Conocer la estructura de una Skill</li>
+        <li>✅ Usar la IA para hacer commits y crear Pull Requests</li>
+        <li>✅ Crear y configurar una Skill de PR Reviewer desde cero</li>
+        <li>✅ Probar la skill con código real con problemas de calidad</li>
       </ul>
     </google-codelab-step>
 
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 2: PREREQUISITES                                     -->
+    <!-- ══════════════════════════════════════════════════════════ -->
     <google-codelab-step label="Prerequisites" duration="2">
       <h2 is-upgraded>Conocimientos previos</h2>
       <ul>
@@ -49,40 +72,279 @@
         <li>Saber leer código (en cualquier lenguaje)</li>
         <li>No se requiere experiencia previa con Antigravity IDE</li>
       </ul>
+
       <h2 is-upgraded>Herramientas necesarias</h2>
       <ul>
-        <li><strong>Antigravity IDE</strong> instalado — <a href="https://antigravity.google/product/antigravity-ide" target="_blank">Descargar aquí</a></li>
+        <li><strong>Antigravity IDE</strong> instalado — <a href="https://antigravity.google/product/antigravity-ide"
+            target="_blank">Descargar aquí</a></li>
+        <li>Cuenta de <strong>GitHub</strong> activa</li>
         <li>Conexión a internet</li>
+        <li>Docker Desktop (Opcional)</li>
       </ul>
-      <aside class="special">
-        <p><strong>Nota:</strong> Si es tu primera vez usando Antigravity IDE, completa el onboarding antes de continuar. Solo toma 2 minutos.</p>
-      </aside>
     </google-codelab-step>
 
-    <google-codelab-step label="Paso 1: Preparación en Antigravity IDE" duration="5">
-      <h2 is-upgraded>1.1 Abre Antigravity IDE</h2>
-      <p>Inicia la aplicación. Verás el panel principal con las siguientes secciones:</p>
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 3: FORK DEL REPO                                     -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <google-codelab-step label="Paso 1: Fork del repositorio base" duration="3">
+      <p>El taller parte de un repositorio con código ya existente. Tu primer paso es hacer un fork para tener tu propia
+        copia donde trabajar.</p>
+
+      <h2 is-upgraded>1.1 Haz fork del repositorio</h2>
+      <p>Ve a este repositorio en GitHub y haz clic en <strong>"Fork"</strong>:</p>
+      <p><a href="https://github.com/soyvikman/shop-cart-demo-workshop"
+          target="_blank">https://github.com/soyvikman/shop-cart-demo-workshop</a></p>
+
       <ul>
-        <li><strong>Chat</strong>: donde interactúas con la IA</li>
-        <li><strong>Skills</strong>: donde gestionas tus comportamientos personalizados</li>
-        <li><strong>Context</strong>: donde puedes adjuntar archivos o fragmentos de código</li>
+        <li>Elige tu cuenta personal como destino del fork</li>
+        <li>Deja el nombre por defecto o cámbialo si prefieres</li>
+        <li>Haz clic en <strong>"Create fork"</strong></li>
       </ul>
-      <h2 is-upgraded>1.2 Navega a Skills y crea una nueva</h2>
-      <p>Haz clic en <strong>"+ New Skill"</strong> y completa los primeros dos campos:</p>
-      <ul>
-        <li><strong>Name:</strong> <code>PR Reviewer</code></li>
-        <li><strong>Description:</strong> <code>Revisa Pull Requests como un Senior Software Developer. Detecta bugs, problemas de calidad, seguridad y mantenibilidad.</code></li>
-      </ul>
+
+      <h2 is-upgraded>1.2 Clona tu fork localmente</h2>
+      <pre><code>git clone https://github.com/TU-USUARIO/shop-cart-demo-workshop.git
+cd shop-cart-demo-workshop</code></pre>
+
+      <h2 is-upgraded>1.3 Ábrelo en Antigravity IDE</h2>
+      <p>Abre la carpeta del proyecto desde Antigravity IDE usando <strong>File → Open Folder</strong>.</p>
+
+      <h2 is-upgraded>1.4 Estructura del repositorio</h2>
+      <p>Una vez abierto, verás esta estructura:</p>
+      <pre><code>shop-cart-demo-workshop/
+├── .agent/
+│   └── skills/
+│       └── pr-reviewer/        ← aquí crearás tu skill
+│           └── SKILL.md        ← (aún vacío, lo llenarás en este taller)
+├── shop/
+│   ├── cart.js                 ← código de prueba con bugs
+│   └── orders.js
+└── README.md</code></pre>
+
       <aside class="note">
-        <p><strong>¿Por qué importa el nombre?</strong> Puedes tener múltiples skills activas. Un nombre claro te ayuda a cambiar entre ellas rápidamente.</p>
+        <p><strong>¿Por qué <code>.agent/skills/</code>?</strong> Antigravity IDE detecta automáticamente las Skills que
+          están dentro de esta carpeta. Cada skill vive en su propia subcarpeta para mantener el proyecto organizado y
+          poder versionar las skills junto al código.</p>
+      </aside>
+
+      <aside class="special">
+        <p>✅ Si ves la carpeta <code>.agent/skills/</code> en tu editor, estás listo para continuar.</p>
       </aside>
     </google-codelab-step>
 
-    <google-codelab-step label="Paso 2: Diseñar el comportamiento" duration="10">
-      <p>El System Prompt es el corazón de tu Skill. Aquí le dices a la IA <strong>quién es</strong> y <strong>cómo debe pensar</strong>.</p>
-      <h2 is-upgraded>2.1 Copia el System Prompt</h2>
-      <p>Ve al campo <strong>System Prompt</strong> de tu Skill y pega este contenido:</p>
-      <pre><code>Eres un Senior Software Developer con más de 10 años de experiencia en
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 4: QUÉ ES MCP + CONFIGURAR GITHUB                   -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <google-codelab-step label="Paso 2: ¿Qué es MCP? Conectar GitHub" duration="7">
+      <h2 is-upgraded>¿Qué es MCP?</h2>
+      <p><strong>MCP (Model Context Protocol)</strong> es un protocolo abierto que actúa como <em>traductor</em> entre
+        la IA y herramientas externas. Sin MCP, la IA solo puede leer lo que tú le pegas en el chat. Con MCP, puede
+        conectarse directamente a GitHub, bases de datos, APIs, tu sistema de archivos, y más.</p>
+
+      <p>Piénsalo así:</p>
+      <pre><code>Sin MCP:  Tú → copias y pegas código → IA responde
+Con MCP:  IA → lee tu repo, ve commits, crea PRs → todo desde el chat</code></pre>
+
+      <p>En este taller usaremos el <strong>GitHub MCP</strong> para que la IA pueda:</p>
+      <ul>
+        <li>Ver los cambios pendientes en tu repositorio</li>
+        <li>Generar mensajes de commit con formato profesional</li>
+        <li>Crear Pull Requests directamente desde el chat</li>
+      </ul>
+
+      <h2 is-upgraded>Configurar el GitHub MCP en Antigravity IDE</h2>
+
+      <h3 is-upgraded>Paso A: Obtén tu Personal Access Token de GitHub</h3>
+      <ol>
+        <li>Ve a <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a></li>
+        <li>Haz clic en <strong>"Generate new token (classic)"</strong></li>
+        <li>Dale un nombre: <code>antigravity-mcp</code></li>
+        <li>Marca los scopes: <code>repo</code> y <code>read:org</code></li>
+        <li>Haz clic en <strong>"Generate token"</strong> y <strong>cópialo ahora</strong> (no lo verás de nuevo)</li>
+      </ol>
+
+      <aside class="warning">
+        <p><strong>⚠️ Importante:</strong> Guarda el token en un lugar seguro. GitHub solo te lo muestra una vez.</p>
+      </aside>
+
+      <h3 is-upgraded>Paso B: Añade la configuración MCP en Antigravity IDE</h3>
+      <p>Ve a <strong>Settings → MCP Servers</strong> en Antigravity IDE y agrega esta configuración, reemplazando
+        <code>TU_TOKEN_AQUI</code> con el token que acabas de generar:
+      </p>
+
+      <pre><code language="language-json" class="language-json">{
+  "mcpServers": {
+    "github-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "TU_TOKEN_AQUI"
+      }
+    }
+  }
+}</code></pre>
+
+      <aside class="note">
+        <p><strong>¿Por qué <code>npx</code> y no Docker?</strong> Esta configuración usa el paquete npm oficial de MCP
+          para GitHub. Es más ligera, no requiere Docker Desktop y funciona igual de bien para este taller.</p>
+      </aside>
+
+      <h3 is-upgraded>Paso C: Verifica la conexión</h3>
+      <p>Reinicia Antigravity IDE. En el panel de chat deberías ver el indicador de <strong>GitHub MCP
+          conectado</strong>. Puedes verificarlo escribiendo en el chat:</p>
+      <pre><code>¿A qué repositorio estoy conectado y cuál es el último commit?</code></pre>
+      <p>Si la IA responde con información real de tu repo, el MCP está funcionando correctamente. ✅</p>
+    </google-codelab-step>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 5: ESTRUCTURA DE UN SKILL                            -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <google-codelab-step label="Paso 3: Estructura de una Skill" duration="5">
+      <p>Antes de crear tu PR Reviewer, entendamos cómo está construida una Skill.</p>
+
+      <h2 is-upgraded>Los 3 componentes de una Skill</h2>
+      <p>Toda Skill en Antigravity IDE es un archivo <code>SKILL.md</code> con tres partes:</p>
+
+      <ul>
+        <li><strong>Rol:</strong> Le dice a la IA quién es y qué experiencia tiene</li>
+        <li><strong>Instrucciones:</strong> Le explica cómo debe pensar y actuar</li>
+        <li><strong>Formato de respuesta:</strong> Define la estructura de sus respuestas</li>
+      </ul>
+
+      <h2 is-upgraded>Ejemplo: Skill de documentación</h2>
+      <p>Para que veas el patrón antes de crear el tuyo, aquí hay una skill sencilla que documenta funciones
+        automáticamente:</p>
+
+      <pre><code language="language-markdown" class="language-markdown"># Tech Writer
+
+Eres un Technical Writer especializado en documentación de código.
+Tu rol es generar documentación clara, concisa y útil para desarrolladores.
+
+## Cómo documentar
+
+Cuando recibas una función o módulo:
+1. Identifica qué hace la función (propósito principal)
+2. Describe cada parámetro con su tipo y significado
+3. Explica el valor de retorno
+4. Añade un ejemplo de uso real
+
+## Formato de respuesta
+
+```
+/**
+ * [Descripción en una línea]
+ *
+ * @param {tipo} nombre - Descripción del parámetro
+ * @returns {tipo} - Descripción del retorno
+ *
+ * @example
+ * // Ejemplo de uso
+ * funcionEjemplo(param1, param2)
+ */
+```
+
+## Tono
+Técnico pero accesible. Sin palabras de relleno.
+Responde siempre en español.</code></pre>
+
+      <h2 is-upgraded>¿Dónde va el archivo?</h2>
+      <p>Cada skill vive en su propia carpeta dentro de <code>.agent/skills/</code>:</p>
+      <pre><code>.agent/
+└── skills/
+    ├── tech-writer/
+    │   └── SKILL.md       ← skill de documentación
+    └── pr-reviewer/
+        └── SKILL.md       ← la skill que crearás ahora</code></pre>
+
+      <p>Antigravity IDE detecta automáticamente cualquier <code>SKILL.md</code> dentro de <code>.agent/skills/*/</code>
+        y la hace disponible en el selector de skills del chat.</p>
+
+      <aside class="special">
+        <p>✅ Ahora que entiendes el patrón, estás listo para el primer ejercicio práctico.</p>
+      </aside>
+    </google-codelab-step>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 6: EJERCICIO — COMMIT Y PR CON IA                    -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <google-codelab-step label="Paso 4: Ejercicio — Commit y PR con IA" duration="8">
+      <p>Antes de crear tu skill, vamos a ver el poder del <strong>GitHub MCP en acción</strong>. Usarás un prompt listo
+        para que la IA revise los cambios en tu repo, haga un commit con formato profesional y cree un Pull Request,
+        todo desde el chat.</p>
+
+      <h2 is-upgraded>4.1 Prepara un cambio en el repo</h2>
+      <p>Abre el archivo <code>shop/cart.js</code> y agrega este comentario al inicio del archivo:</p>
+      <pre><code language="language-javascript" class="language-javascript">// TODO: validar que qty sea un número positivo antes de agregar al carrito</code></pre>
+      <p>Guarda el archivo. No hagas commit todavía — eso lo hará la IA.</p>
+
+      <h2 is-upgraded>4.2 Copia y pega este prompt en el chat</h2>
+      <aside class="special">
+        <p>Asegúrate de que <strong>ninguna Skill esté activa</strong> en este paso. Queremos que la IA actúe con el
+          GitHub MCP directamente, sin perfil de reviewer.</p>
+      </aside>
+
+      <pre><code>Actúa como un desarrollador senior de mi equipo.
+
+Usa el GitHub MCP para hacer lo siguiente en secuencia:
+
+1. REVISA LOS CAMBIOS: Mira qué archivos han cambiado en el repositorio
+   actual respecto al último commit.
+
+2. EVALÚA LOS CAMBIOS: Analiza si los cambios tienen sentido, si hay algo
+   que debería corregirse antes de commitear, o si están listos para subir.
+   - Si hay algo incorrecto o mejorable: indícalo con claridad y espera
+     mi confirmación antes de continuar.
+   - Si los cambios están bien: continúa al siguiente paso directamente.
+
+3. GENERA EL COMMIT: Crea un mensaje de commit siguiendo el formato
+   Conventional Commits:
+   - Formato: tipo(scope): descripción corta en español
+   - Tipos válidos: feat, fix, refactor, chore, docs, test, style
+   - Ejemplo: docs(cart): agrega TODO sobre validación de qty
+
+4. CREA UN PULL REQUEST: Abre un PR desde la rama actual hacia main con:
+   - Título claro que describa el cambio
+   - Descripción con: qué cambia, por qué, y qué revisar
+   - Etiqueta: enhancement o documentation según corresponda
+
+Empieza revisando los cambios ahora.</code></pre>
+
+      <h2 is-upgraded>4.3 Resultado esperado</h2>
+      <p>La IA debería:</p>
+      <ul>
+        <li>Leer el diff del archivo <code>cart.js</code></li>
+        <li>Evaluar que el cambio es un comentario de documentación válido</li>
+        <li>Proponer algo como: <code>docs(cart): agrega TODO sobre validación de qty positivo</code></li>
+        <li>Crear el Pull Request con título y descripción formateados</li>
+      </ul>
+
+      <aside class="note">
+        <p><strong>¿La IA te pide confirmación?</strong> Es normal. Si detecta algo que revisar, te lo dirá antes de
+          commitear. Eso es exactamente el comportamiento que queremos.</p>
+      </aside>
+
+      <aside class="warning">
+        <p><strong>Si el MCP no funciona:</strong> Verifica que el token de GitHub tenga el scope <code>repo</code>
+          habilitado y que Antigravity IDE se haya reiniciado después de guardar la configuración.</p>
+      </aside>
+    </google-codelab-step>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 7: CREAR LA SKILL PR REVIEWER                        -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <google-codelab-step label="Paso 5: Crea la Skill PR Reviewer" duration="10">
+      <p>Ahora sí: vamos a construir tu skill desde cero. Abre el archivo
+        <code>.agent/skills/pr-reviewer/SKILL.md</code> en tu editor y borra cualquier contenido que tenga.
+      </p>
+
+      <h2 is-upgraded>5.1 El System Prompt completo</h2>
+      <p>Copia y pega todo este contenido en el archivo <code>SKILL.md</code>:</p>
+
+      <pre><code language="language-markdown" class="language-markdown"># PR Reviewer
+
+Eres un Senior Software Developer con más de 10 años de experiencia en
 desarrollo de software, arquitectura de sistemas y mentorship de equipos.
 
 Tu rol es revisar Pull Requests con el mismo nivel de detalle y profesionalismo
@@ -99,38 +361,7 @@ Analiza el código en este orden:
 5. Arquitectura: ¿Respeta separación de responsabilidades?
 6. Mejoras concretas: Siempre proporciona código corregido.
 
-## Formato de tu respuesta
-
-### 📋 Resumen ejecutivo
-Una o dos frases sobre el estado general del PR.
-
-### 🔴 Crítico (debe corregirse antes del merge)
-Problemas que bloquean el merge, con código corregido.
-
-### 🟡 Importante (debe corregirse pronto)
-Problemas de calidad o mantenibilidad.
-
-### 🟢 Sugerencias (nice to have)
-Mejoras opcionales.
-
-### ✅ Lo que está bien
-Menciona qué se hizo correctamente.
-
-## Tono
-Sé directo pero constructivo. Critica el código, no al desarrollador.
-Responde siempre en español.</code></pre>
-      <h2 is-upgraded>2.2 Guarda la Skill</h2>
-      <p>Haz clic en <strong>"Guardar"</strong> o <strong>"Save"</strong>.</p>
-      <aside class="special">
-        <p>¡Bien hecho! Acabas de definir la personalidad y el método de trabajo de tu AI Reviewer.</p>
-      </aside>
-    </google-codelab-step>
-
-    <google-codelab-step label="Paso 3: Configurar la revisión de PR" duration="8">
-      <p>Agrega instrucciones específicas para que la IA analice los cambios de un PR con criterios técnicos.</p>
-      <h2 is-upgraded>3.1 Agrega los criterios de revisión</h2>
-      <p>Copia este bloque al final de tu System Prompt:</p>
-      <pre><code>## Criterios específicos para revisión de Pull Requests
+## Criterios específicos para revisión de Pull Requests
 
 ### Análisis de cambios
 - ¿El PR tiene un propósito claro y único?
@@ -153,18 +384,52 @@ Responde siempre en español.</code></pre>
 ### Testing
 - ¿El PR incluye tests para los cambios?
 - ¿Los tests cubren casos de borde?
-- ¿Se testean comportamientos o implementaciones?</code></pre>
-      <aside class="note">
-        <p><strong>Tip:</strong> Estos criterios son tu "checklist invisible". La IA los revisará automáticamente cada vez que uses la skill.</p>
+- ¿Se testean comportamientos o implementaciones?
+
+## Formato de tu respuesta
+
+### 📋 Resumen ejecutivo
+Una o dos frases sobre el estado general del PR.
+
+### 🔴 Crítico (debe corregirse antes del merge)
+Problemas que bloquean el merge, con código corregido.
+
+### 🟡 Importante (debe corregirse pronto)
+Problemas de calidad o mantenibilidad.
+
+### 🟢 Sugerencias (nice to have)
+Mejoras opcionales.
+
+### ✅ Lo que está bien
+Menciona qué se hizo correctamente.
+
+## Tono
+Sé directo pero constructivo. Critica el código, no al desarrollador.
+Responde siempre en español.</code></pre>
+
+      <h2 is-upgraded>5.2 Guarda el archivo</h2>
+      <p>Guarda <code>SKILL.md</code>. Antigravity IDE detectará la skill automáticamente.</p>
+
+      <h2 is-upgraded>5.3 Activa la Skill en el chat</h2>
+      <p>En el panel de Chat, busca el selector de Skills y selecciona <strong>"PR Reviewer"</strong>. Verifica que
+        aparezca como activa antes de continuar.</p>
+
+      <aside class="special">
+        <p>✅ Si ves "PR Reviewer" disponible en el selector, tu skill fue detectada correctamente.</p>
       </aside>
     </google-codelab-step>
 
-    <google-codelab-step label="Paso 4: Probar la Skill" duration="10">
-      <p>Vamos a probar tu skill con un fragmento de código con problemas reales.</p>
-      <h2 is-upgraded>4.1 Activa tu Skill</h2>
-      <p>En el panel de Chat, selecciona <strong>"PR Reviewer"</strong> en el selector de Skills y confirma que está activa.</p>
-      <h2 is-upgraded>4.2 El código de prueba</h2>
-      <p>Copia este código completo y pégalo en el chat:</p>
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 8: PROBAR LA SKILL                                   -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <google-codelab-step label="Paso 6: Probar la Skill" duration="10">
+      <p>Con la skill activa, vamos a probarla con código que tiene problemas reales del archivo
+        <code>shop/orders.js</code> de tu repositorio.
+      </p>
+
+      <h2 is-upgraded>6.1 El código de prueba</h2>
+      <p>Copia este fragmento completo y pégalo directamente en el chat:</p>
+
       <pre><code language="language-javascript" class="language-javascript">// PR: Agregar función para procesar pedidos de usuarios
 async function process(d) {
   var result = []
@@ -190,10 +455,12 @@ async function process(d) {
   }
   return result
 }</code></pre>
-      <h2 is-upgraded>4.3 El mensaje que debes enviar</h2>
+
+      <h2 is-upgraded>6.2 El mensaje que debes enviar</h2>
       <pre><code>Por favor revisa este PR. Es una función nueva que procesa pedidos de usuarios.
 El desarrollador dice que "funciona bien en local".</code></pre>
-      <h2 is-upgraded>4.4 Resultado esperado</h2>
+
+      <h2 is-upgraded>6.3 Resultado esperado</h2>
       <p>Tu AI Reviewer debería detectar:</p>
       <ul>
         <li>🔴 <strong>SQL Injection</strong> por concatenación directa de parámetros</li>
@@ -203,53 +470,74 @@ El desarrollador dice que "funciona bien en local".</code></pre>
         <li>🟡 <strong>Uso de <code>var</code></strong> en lugar de <code>const</code>/<code>let</code></li>
         <li>🟡 <strong>Comparación con <code>==</code></strong> en lugar de <code>===</code></li>
       </ul>
+
       <aside class="special">
-        <p>Si tu skill detectó los problemas de SQL Injection y N+1, ¡está funcionando correctamente!</p>
+        <p>✅ Si tu skill detectó SQL Injection y el patrón N+1, está funcionando correctamente.</p>
       </aside>
+
       <aside class="warning">
-        <p><strong>Si la respuesta es muy genérica:</strong> Verifica que la skill esté activa. Selecciónala nuevamente y reenvía el mensaje.</p>
+        <p><strong>Si la respuesta es muy genérica:</strong> Verifica que la skill "PR Reviewer" esté seleccionada en el
+          selector del chat. Selecciónala nuevamente y reenvía el mensaje.</p>
       </aside>
     </google-codelab-step>
 
-    <google-codelab-step label="Paso 5: Mejoras opcionales" duration="5">
-      <p>Tu skill ya es funcional. Estas extensiones la hacen más poderosa y adaptada a tu equipo.</p>
-      <h2 is-upgraded>5.1 Checklist de merge</h2>
-      <pre><code>## Checklist de aprobación
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 9: MEJORAS OPCIONALES                                -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <google-codelab-step label="Paso 7: Mejoras opcionales" duration="5">
+      <p>Tu skill ya es funcional. Estas extensiones la hacen más poderosa y adaptada a tu equipo. Agrégalas al final de
+        tu <code>SKILL.md</code> según lo que necesites.</p>
+
+      <h2 is-upgraded>7.1 Checklist de merge</h2>
+      <pre><code language="language-markdown" class="language-markdown">## Checklist de aprobación
 - [ ] No hay vulnerabilidades de seguridad críticas
 - [ ] El código pasa los linters del proyecto
 - [ ] Hay tests para los cambios principales
 - [ ] El naming es claro y consistente
 - [ ] No hay código comentado ni TODOs sin ticket</code></pre>
-      <h2 is-upgraded>5.2 Convenciones de equipo</h2>
-      <pre><code>## Convenciones de nuestro equipo
+
+      <h2 is-upgraded>7.2 Convenciones de equipo</h2>
+      <pre><code language="language-markdown" class="language-markdown">## Convenciones de nuestro equipo
 - Usamos el patrón Repository para acceso a datos
 - Los componentes React deben ser funcionales, no clases
 - Los commits siguen Conventional Commits (feat:, fix:, refactor:)</code></pre>
-      <h2 is-upgraded>5.3 Revisión de seguridad extendida</h2>
-      <pre><code>## Seguridad: puntos adicionales
+
+      <h2 is-upgraded>7.3 Revisión de seguridad extendida</h2>
+      <pre><code language="language-markdown" class="language-markdown">## Seguridad: puntos adicionales
 - Datos sensibles en logs (passwords, tokens, PII)
 - Autenticación y autorización en rutas nuevas
 - Secrets o credenciales hardcodeadas en el código</code></pre>
+
       <aside class="note">
-        <p><strong>Tip:</strong> No agregues todo de golpe. Empieza con tu skill base, úsala una semana y agrega mejoras según lo que notes que le falta.</p>
+        <p><strong>Tip:</strong> No agregues todo de golpe. Usa la skill base durante una semana real y añade mejoras
+          según lo que notes que le falta. Las mejores skills evolucionan con el equipo.</p>
       </aside>
     </google-codelab-step>
 
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- STEP 10: CONGRATULATIONS                                  -->
+    <!-- ══════════════════════════════════════════════════════════ -->
     <google-codelab-step label="Congratulations" duration="1">
-      <h2 class="checklist" is-upgraded>Lo que construiste</h2>
+      <h2 class="checklist" is-upgraded>Lo que construiste hoy</h2>
       <ul class="checklist">
-        <li>✅ Una Skill de revisión de PRs con Antigravity IDE</li>
-        <li>✅ System Prompt con rol, criterios y formato estructurado</li>
-        <li>✅ Criterios técnicos de revisión automática</li>
-        <li>✅ Capacidad para detectar SQL Injection, N+1 y problemas de calidad</li>
+        <li>✅ Fork del repositorio base y configuración del entorno</li>
+        <li>✅ GitHub MCP conectado a Antigravity IDE</li>
+        <li>✅ Commit y Pull Request generados con IA usando MCP</li>
+        <li>✅ Una Skill de revisión de PRs creada desde cero</li>
+        <li>✅ System Prompt con rol, criterios técnicos y formato estructurado</li>
+        <li>✅ Detección automática de SQL Injection, N+1 y problemas de calidad</li>
       </ul>
+
       <h2 is-upgraded>¿Qué sigue?</h2>
       <ul>
-        <li>Toma el último PR que revisaste manualmente y compara con la skill</li>
-        <li>Comparte la skill con tu equipo</li>
-        <li>Itera colectivamente sobre los criterios</li>
+        <li>Toma el último PR que revisaste manualmente y compáralo con tu skill</li>
+        <li>Agrega las convenciones reales de tu equipo al <code>SKILL.md</code></li>
+        <li>Crea una segunda skill para otra tarea repetitiva de tu día a día</li>
+        <li>Comparte tu fork en el canal de la comunidad con lo que detectó</li>
       </ul>
-      <p><strong>GDG Arequipa</strong> — Comparte tu skill terminada en el canal de la comunidad y cuéntanos qué problemas detectó que no habías notado tú. 🚀</p>
+
+      <p><strong>GDG Arequipa</strong> — Comparte tu skill terminada en el canal de la comunidad y cuéntanos qué
+        problemas detectó que no habías notado tú. 🚀</p>
     </google-codelab-step>
 
   </google-codelab>
@@ -260,4 +548,5 @@ El desarrollador dice que "funciona bien en local".</code></pre>
   <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
   <script src="//support.google.com/inapp/api.js"></script>
 </body>
+
 </html>
