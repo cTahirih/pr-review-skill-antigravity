@@ -35,9 +35,10 @@
     <!-- STEP 1: OVERVIEW                                          -->
     <!-- ══════════════════════════════════════════════════════════ -->
     <google-codelab-step label="Overview" duration="5">
-      <p>En este codelab vas a construir una <strong>skill de envío de Pull Requests</strong> usando <strong>Antigravity
-          IDE</strong>. Al terminar, tendrás un asistente de IA que actuará como un Senior Software Developer y podrá
-        hacer un PR detallado y de calidad profesional en segundos.</p>
+      <p>En este codelab vas a construir una <strong>skill de revisión de Pull Requests</strong> usando
+        <strong>Antigravity IDE</strong>. Al terminar, tendrás un asistente de IA que actuará como un Senior Software
+        Developer y podrá hacer code reviews detallados y de calidad profesional en segundos.
+      </p>
 
       <h2 is-upgraded>¿Qué es Antigravity IDE?</h2>
       <p>Antigravity IDE es un entorno de desarrollo aumentado con IA que te permite crear <strong>Skills</strong>:
@@ -79,8 +80,12 @@
             target="_blank">Descargar aquí</a></li>
         <li>Cuenta de <strong>GitHub</strong> activa</li>
         <li>Conexión a internet</li>
-        <li>Docker Desktop (Opcional)</li>
       </ul>
+
+      <aside class="special">
+        <p><strong>Nota:</strong> Si es tu primera vez usando Antigravity IDE, completa el onboarding antes de
+          continuar. Solo toma 2 minutos.</p>
+      </aside>
     </google-codelab-step>
 
     <!-- ══════════════════════════════════════════════════════════ -->
@@ -127,7 +132,7 @@ cd shop-cart-demo-workshop</code></pre>
       </aside>
 
       <aside class="special">
-        <p>✅ Si ves la carpeta <code>.agent/skills/</code> en tu editor, estás listo para continuar.</p>
+        <p>✅ Si ves la carpeta <code>.agent/skills/pr-reviewer/</code> en tu editor, estás listo para continuar.</p>
       </aside>
     </google-codelab-step>
 
@@ -335,73 +340,132 @@ Empieza revisando los cambios ahora.</code></pre>
     <!-- STEP 7: CREAR LA SKILL PR REVIEWER                        -->
     <!-- ══════════════════════════════════════════════════════════ -->
     <google-codelab-step label="Paso 5: Crea la Skill PR Reviewer" duration="10">
-      <p>Ahora sí: vamos a construir tu skill desde cero. Abre el archivo
-        <code>.agent/skills/pr-reviewer/SKILL.md</code> en tu editor y borra cualquier contenido que tenga.
-      </p>
+      <p>Ahora construirás la skill. No es un reviewer pasivo: es un <strong>agente activo</strong> que revisa el
+        código, te propone mejoras con código corregido, espera tu aprobación y luego aplica los cambios, hace commit,
+        push y abre el PR hacia el repositorio original por ti.</p>
 
-      <h2 is-upgraded>5.1 El System Prompt completo</h2>
-      <p>Copia y pega todo este contenido en el archivo <code>SKILL.md</code>:</p>
+      <p>Abre el archivo <code>.agent/skills/pr-reviewer/SKILL.md</code> en tu editor y borra cualquier contenido
+        que tenga.</p>
+
+      <h2 is-upgraded>5.1 El SKILL.md completo</h2>
+      <p>Copia y pega todo este contenido en el archivo:</p>
 
       <pre><code language="language-markdown" class="language-markdown"># PR Reviewer
 
 Eres un Senior Software Developer con más de 10 años de experiencia en
 desarrollo de software, arquitectura de sistemas y mentorship de equipos.
 
-Tu rol es revisar Pull Requests con el mismo nivel de detalle y profesionalismo
-que usarías en un equipo de alto rendimiento. Tu objetivo no es solo encontrar
-errores, sino ayudar al desarrollador a crecer.
+Cuando el desarrollador te lo pida, ejecutas un flujo completo: revisas el
+código, sugieres mejoras, aplicas los cambios aprobados, haces commit, push
+y abres un Pull Request hacia el repositorio original (upstream).
 
-## Cómo debes revisar
+## Flujo de trabajo
 
-Analiza el código en este orden:
-1. Calidad del código: ¿Es limpio y sigue buenas prácticas?
-2. Mantenibilidad: ¿Otro desarrollador puede entenderlo en 6 meses?
-3. Seguridad: ¿Hay vulnerabilidades obvias?
-4. Legibilidad: ¿Los nombres comunican su intención?
-5. Arquitectura: ¿Respeta separación de responsabilidades?
-6. Mejoras concretas: Siempre proporciona código corregido.
+Cuando el desarrollador active esta skill y te pida procesar sus cambios,
+sigue estos pasos en orden:
 
-## Criterios específicos para revisión de Pull Requests
+### Paso 1 — Analiza los cambios
+Usa el GitHub MCP para obtener el diff entre la rama actual y main.
+Identifica qué archivos cambiaron y cuál es el propósito del cambio.
+Determina si es un bug fix, una nueva feature, refactor, docs u otro tipo.
 
-### Análisis de cambios
-- ¿El PR tiene un propósito claro y único?
-- ¿El tamaño es razonable o debería dividirse?
+### Paso 2 — Code review interno
+Revisa el código con estos criterios, en orden de prioridad:
 
-### Bugs potenciales
-- Condiciones de borde (null, undefined, lista vacía, número negativo)
-- Condiciones de carrera en código asíncrono
+**Seguridad**
+- SQL Injection por concatenación de parámetros en queries
+- Secrets o credenciales hardcodeadas
+- Datos sensibles expuestos en logs (passwords, tokens, PII)
+- Rutas nuevas sin autenticación o autorización
+
+**Bugs y robustez**
+- Condiciones de borde: null, undefined, lista vacía, número negativo
 - Errores silenciados sin try/catch
+- Condiciones de carrera en código asíncrono
 
-### Naming y legibilidad
-- Variables con nombres de una letra (i, j, temp, data, obj)
-- Constantes mágicas sin nombre ni explicación
-- Comentarios que explican el "qué" en lugar del "por qué"
+**Calidad y mantenibilidad**
+- Variables con nombres de una letra (i, j, d, obj, temp)
+- Constantes mágicas sin nombre
+- Uso de var en lugar de const/let
+- Comparaciones con == en lugar de ===
+- Comentarios que explican el "qué" en vez del "por qué"
 
-### Performance
-- Consultas N+1 a base de datos o APIs
-- Operaciones costosas dentro de bucles
+**Performance**
+- Consultas N+1 a base de datos o APIs dentro de bucles
+- Operaciones costosas sin justificación
 
-### Testing
-- ¿El PR incluye tests para los cambios?
-- ¿Los tests cubren casos de borde?
-- ¿Se testean comportamientos o implementaciones?
+### Paso 3 — Presenta el reporte y propone mejoras
+Responde con este formato exacto:
 
-## Formato de tu respuesta
+---
+### 📋 Tipo de cambio
+Indica si es: feat, fix, refactor, docs, chore u otro.
+Una frase describiendo el propósito del PR.
 
-### 📋 Resumen ejecutivo
-Una o dos frases sobre el estado general del PR.
+### 🔴 Crítico (bloquea el merge)
+Por cada problema crítico:
+- **Problema:** descripción clara
+- **Código corregido:**
 
-### 🔴 Crítico (debe corregirse antes del merge)
-Problemas que bloquean el merge, con código corregido.
-
-### 🟡 Importante (debe corregirse pronto)
-Problemas de calidad o mantenibilidad.
+### 🟡 Importante (corregir pronto)
+Igual que crítico pero para problemas de calidad o mantenibilidad.
 
 ### 🟢 Sugerencias (nice to have)
-Mejoras opcionales.
+Mejoras opcionales sin código requerido.
 
 ### ✅ Lo que está bien
-Menciona qué se hizo correctamente.
+Lista breve de lo que se hizo correctamente.
+
+### ¿Aplicamos estas correcciones?
+Si hay problemas 🔴 o 🟡, pregunta:
+"¿Quieres que aplique las correcciones marcadas con 🔴 y 🟡 antes de
+hacer el commit? Responde sí para aplicar, o no para continuar
+con el código tal como está."
+
+Si no hay problemas: indica que el código está listo y pasa al Paso 4.
+---
+
+### Paso 4 — Aplica correcciones (solo si el desarrollador aprueba)
+Si el desarrollador responde "sí":
+- Aplica únicamente los cambios de los ítems 🔴 y 🟡 usando las
+  herramientas de edición de archivos disponibles.
+- Confirma qué cambios aplicaste antes de continuar.
+
+Si responde "no": continúa con el código sin modificar.
+
+### Paso 5 — Commit y push
+Genera el mensaje de commit siguiendo Conventional Commits:
+- Formato: tipo(scope): descripción corta en español
+- El tipo debe coincidir con lo identificado en el Paso 1
+- Ejemplos:
+  - feat(orders): agrega función para procesar pedidos
+  - fix(cart): corrige SQL injection en consulta de usuarios
+  - refactor(orders): mejora naming y reemplaza var por const
+
+Haz el commit y el push a la rama actual usando el GitHub MCP.
+
+### Paso 6 — Crea el Pull Request hacia upstream
+Usa el GitHub MCP para abrir un PR desde tu fork hacia el repositorio
+original (soyvikman/shop-cart-demo-workshop), rama main, con:
+
+**Título:** tipo(scope): descripción corta en español
+
+**Descripción con este formato:**
+
+## ¿Qué cambia este PR?
+[Descripción del cambio en 2-3 frases]
+
+## Tipo de cambio
+- [ ] Bug fix
+- [ ] Nueva feature
+- [ ] Refactor
+- [ ] Documentación
+
+## Code review interno
+[Resumen del review: qué se encontró, qué se corrigió, qué se dejó como sugerencia]
+
+## ¿Qué revisar?
+[Puntos específicos donde el reviewer humano debería poner atención]
 
 ## Tono
 Sé directo pero constructivo. Critica el código, no al desarrollador.
@@ -411,11 +475,18 @@ Responde siempre en español.</code></pre>
       <p>Guarda <code>SKILL.md</code>. Antigravity IDE detectará la skill automáticamente.</p>
 
       <h2 is-upgraded>5.3 Activa la Skill en el chat</h2>
-      <p>En el panel de Chat, busca el selector de Skills y selecciona <strong>"PR Reviewer"</strong>. Verifica que
+      <p>En el panel de Chat, escribe <strong>/</strong> y selecciona la skill creada <strong>"PR Reviewer"</strong>.
+        Verifica que
         aparezca como activa antes de continuar.</p>
 
       <aside class="special">
         <p>✅ Si ves "PR Reviewer" disponible en el selector, tu skill fue detectada correctamente.</p>
+      </aside>
+
+      <aside class="note">
+        <p><strong>¿Por qué el flujo tiene 6 pasos internos?</strong> Cada paso tiene una responsabilidad clara:
+          analizar, revisar, reportar, corregir, commitear y abrir el PR. Esto hace que la skill sea predecible y
+          fácil de ajustar — si quieres cambiar solo el formato del PR, sabes exactamente dónde ir en el archivo.</p>
       </aside>
     </google-codelab-step>
 
@@ -423,61 +494,38 @@ Responde siempre en español.</code></pre>
     <!-- STEP 8: PROBAR LA SKILL                                   -->
     <!-- ══════════════════════════════════════════════════════════ -->
     <google-codelab-step label="Paso 6: Probar la Skill" duration="10">
-      <p>Con la skill activa, vamos a probarla con código que tiene problemas reales del archivo
-        <code>shop/orders.js</code> de tu repositorio.
-      </p>
+      <p>Con la skill activa, vamos a probarla con el flujo completo. La IA revisará el código del repositorio,
+        te pedirá confirmación para aplicar correcciones y luego hará commit, push y abrirá el PR hacia el
+        repositorio original.</p>
 
-      <h2 is-upgraded>6.1 El código de prueba</h2>
-      <p>Copia este fragmento completo y pégalo directamente en el chat:</p>
+      <h2 is-upgraded>6.1 Prepara el cambio en el repo</h2>
+      <p>Con ayuda de la IA, realiza cambios en el proyecto.</p>
 
-      <pre><code language="language-javascript" class="language-javascript">// PR: Agregar función para procesar pedidos de usuarios
-async function process(d) {
-  var result = []
-  var i = 0
+      <h2 is-upgraded>6.2 Activa la skill y envía este prompt</h2>
+      <p>Asegúrate de que <strong>"PR Reviewer"</strong> esté seleccionada en el selector de Skills. Luego copia
+        y pega este mensaje en el chat:</p>
 
-  while (i &lt; d.length) {
-    var item = d[i]
-    var user = await db.query("SELECT * FROM users WHERE id = " + item.userId)
-    var product = await db.query("SELECT * FROM products WHERE id = " + item.productId)
+      <pre><code>Procesa los cambios del repositorio actual usando tu flujo completo:
+revisa el código, repórtame qué encontraste, espera mi confirmación
+para aplicar correcciones, y luego haz el commit, push y crea el PR
+hacia el repositorio original.</code></pre>
 
-    if (user[0].status == "active") {
-      var total = product[0].price * item.qty
-      if (item.discount) {
-        total = total - (total * item.discount / 100)
-      }
-      result.push({ u: user[0].name, p: product[0].name, t: total })
-    }
-    i++
-  }
+      <h2 is-upgraded>6.3 Flujo esperado</h2>
+      <p>La skill debería ejecutar estos pasos en secuencia:</p>
+      <ol>
+        <li>Leer el diff del repo usando GitHub MCP</li>
+        <li>Detectar los problemas en <code>orders.js</code> y presentar el reporte</li>
+        <li>Preguntarte: <em>"¿Aplicamos las correcciones 🔴 y 🟡?"</em></li>
+        <li>Si respondes <strong>"sí"</strong>: aplicar las correcciones en el archivo</li>
+        <li>Hacer commit con formato Conventional Commits</li>
+        <li>Push a tu rama y abrir el PR hacia <code>soyvikman/shop-cart-demo-workshop</code></li>
+      </ol>
 
-  for (var j = 0; j &lt; result.length; j++) {
-    db.save(result[j])
-  }
-  return result
-}</code></pre>
-
-      <h2 is-upgraded>6.2 El mensaje que debes enviar</h2>
-      <pre><code>Por favor revisa este PR. Es una función nueva que procesa pedidos de usuarios.
-El desarrollador dice que "funciona bien en local".</code></pre>
-
-      <h2 is-upgraded>6.3 Resultado esperado</h2>
-      <p>Tu AI Reviewer debería detectar:</p>
-      <ul>
-        <li>🔴 <strong>SQL Injection</strong> por concatenación directa de parámetros</li>
-        <li>🔴 <strong>Patrón N+1</strong> — 2 queries por cada item del array</li>
-        <li>🔴 <strong>Errores silenciados</strong> — sin try/catch</li>
-        <li>🟡 <strong>Naming deficiente</strong> — <code>d</code>, <code>u</code>, <code>p</code>, <code>t</code></li>
-        <li>🟡 <strong>Uso de <code>var</code></strong> en lugar de <code>const</code>/<code>let</code></li>
-        <li>🟡 <strong>Comparación con <code>==</code></strong> en lugar de <code>===</code></li>
-      </ul>
-
-      <aside class="special">
-        <p>✅ Si tu skill detectó SQL Injection y el patrón N+1, está funcionando correctamente.</p>
-      </aside>
 
       <aside class="warning">
-        <p><strong>Si la respuesta es muy genérica:</strong> Verifica que la skill "PR Reviewer" esté seleccionada en el
-          selector del chat. Selecciónala nuevamente y reenvía el mensaje.</p>
+        <p><strong>Si la skill no usa el MCP:</strong> Verifica que el GitHub MCP esté conectado (ícono en el
+          panel de chat) y que la skill "PR Reviewer" esté activa. Si el problema persiste, reinicia
+          Antigravity IDE.</p>
       </aside>
     </google-codelab-step>
 
@@ -522,22 +570,22 @@ El desarrollador dice que "funciona bien en local".</code></pre>
       <ul class="checklist">
         <li>✅ Fork del repositorio base y configuración del entorno</li>
         <li>✅ GitHub MCP conectado a Antigravity IDE</li>
-        <li>✅ Commit y Pull Request generados con IA usando MCP</li>
-        <li>✅ Una Skill de revisión de PRs creada desde cero</li>
-        <li>✅ System Prompt con rol, criterios técnicos y formato estructurado</li>
-        <li>✅ Detección automática de SQL Injection, N+1 y problemas de calidad</li>
+        <li>✅ Entendiste la estructura de una Skill y el rol del MCP</li>
+        <li>✅ Ejercicio de commit y PR con IA usando solo un prompt</li>
+        <li>✅ Una Skill agentiva creada desde cero con flujo de 6 pasos</li>
+        <li>✅ La IA revisó código, propuso correcciones, commiteó y abrió el PR al repo original</li>
       </ul>
 
       <h2 is-upgraded>¿Qué sigue?</h2>
       <ul>
-        <li>Toma el último PR que revisaste manualmente y compáralo con tu skill</li>
-        <li>Agrega las convenciones reales de tu equipo al <code>SKILL.md</code></li>
+        <li>Abre el PR que creó la skill en GitHub y lee la descripción generada automáticamente</li>
+        <li>Agrega las convenciones reales de tu equipo al <code>SKILL.md</code> para que el review sea más preciso</li>
+        <li>Prueba la skill con un cambio que sí esté bien escrito — verifica que diga que está correcto</li>
         <li>Crea una segunda skill para otra tarea repetitiva de tu día a día</li>
-        <li>Comparte tu fork en el canal de la comunidad con lo que detectó</li>
       </ul>
 
-      <p><strong>GDG Arequipa</strong> — Comparte tu skill terminada en el canal de la comunidad y cuéntanos qué
-        problemas detectó que no habías notado tú. 🚀</p>
+      <p><strong>GDG Arequipa</strong> — Comparte el link al PR que generó tu skill en el canal de la comunidad.
+        Queremos ver qué detectó y cómo quedó la descripción. 🚀</p>
     </google-codelab-step>
 
   </google-codelab>
