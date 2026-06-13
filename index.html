@@ -80,12 +80,8 @@
             target="_blank">Descargar aquí</a></li>
         <li>Cuenta de <strong>GitHub</strong> activa</li>
         <li>Conexión a internet</li>
+        <li>Docker Desktop (Opcional)</li>
       </ul>
-
-      <aside class="special">
-        <p><strong>Nota:</strong> Si es tu primera vez usando Antigravity IDE, completa el onboarding antes de
-          continuar. Solo toma 2 minutos.</p>
-      </aside>
     </google-codelab-step>
 
     <!-- ══════════════════════════════════════════════════════════ -->
@@ -115,15 +111,33 @@ cd shop-cart-demo-workshop</code></pre>
 
       <h2 is-upgraded>1.4 Estructura del repositorio</h2>
       <p>Una vez abierto, verás esta estructura:</p>
-      <pre><code>shop-cart-demo-workshop/
-├── .agent/
+      <pre>
+        <code>
+shop-cart-demo-workshop/
+├── .agents/
 │   └── skills/
-│       └── pr-reviewer/        ← aquí crearás tu skill
-│           └── SKILL.md        ← (aún vacío, lo llenarás en este taller)
-├── shop/
-│   ├── cart.js                 ← código de prueba con bugs
-│   └── orders.js
-└── README.md</code></pre>
+│       └── 
+├── app/
+│   └── page.tsx
+├── components/
+│   ├── CartItem.tsx
+│   ├── Navbar.tsx
+│   └── ProductCard.tsx
+├── context/
+│   └── CartContext.tsx
+├── lib/
+│   └── products.ts
+├── types/
+│   └── index.ts
+├── next.config.js
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
+        </code>
+      </pre>
 
       <aside class="note">
         <p><strong>¿Por qué <code>.agent/skills/</code>?</strong> Antigravity IDE detecta automáticamente las Skills que
@@ -132,7 +146,7 @@ cd shop-cart-demo-workshop</code></pre>
       </aside>
 
       <aside class="special">
-        <p>✅ Si ves la carpeta <code>.agent/skills/pr-reviewer/</code> en tu editor, estás listo para continuar.</p>
+        <p>✅ Si ves la carpeta <code>.agents/skills/</code> en tu editor, estás listo para continuar.</p>
       </aside>
     </google-codelab-step>
 
@@ -209,63 +223,56 @@ Con MCP:  IA → lee tu repo, ve commits, crea PRs → todo desde el chat</code>
     <google-codelab-step label="Paso 3: Estructura de una Skill" duration="5">
       <p>Antes de crear tu PR Reviewer, entendamos cómo está construida una Skill.</p>
 
-      <h2 is-upgraded>Los 3 componentes de una Skill</h2>
-      <p>Toda Skill en Antigravity IDE es un archivo <code>SKILL.md</code> con tres partes:</p>
+      <h2 is-upgraded>¿Dónde vive una Skill?</h2>
+      <p>Cada skill vive en su propia carpeta dentro de <code>.agent/skills/</code> en la raíz de tu proyecto:</p>
+      <pre><code>.agent/
+      └── skills/
+          ├── git-commit-formatter/
+          │   └── SKILL.md
+          └── pr-reviewer/
+              └── SKILL.md       ← la skill que crearás ahora</code></pre>
 
+      <p>Antigravity detecta automáticamente cualquier <code>SKILL.md</code> dentro de <code>.agent/skills/*/</code> y
+        la hace disponible en el chat.</p>
+
+      <h2 is-upgraded>Anatomía de un SKILL.md</h2>
+      <p>Todo archivo <code>SKILL.md</code> tiene dos partes:</p>
       <ul>
-        <li><strong>Rol:</strong> Le dice a la IA quién es y qué experiencia tiene</li>
-        <li><strong>Instrucciones:</strong> Le explica cómo debe pensar y actuar</li>
-        <li><strong>Formato de respuesta:</strong> Define la estructura de sus respuestas</li>
+        <li><strong>Frontmatter YAML</strong>: metadatos que el agente usa para decidir cuándo activar la skill</li>
+        <li><strong>Cuerpo Markdown</strong>: las instrucciones que se cargan en el contexto cuando la skill se activa
+        </li>
       </ul>
 
-      <h2 is-upgraded>Ejemplo: Skill de documentación</h2>
-      <p>Para que veas el patrón antes de crear el tuyo, aquí hay una skill sencilla que documenta funciones
-        automáticamente:</p>
+      <h2 is-upgraded>Ejemplo: Skill de formato de commits</h2>
+      <p>Para que veas el patrón antes de crear el tuyo, aquí hay una skill sencilla que formatea mensajes de Git:</p>
 
-      <pre><code language="language-markdown" class="language-markdown"># Tech Writer
+      <pre><code language="language-markdown" class="language-markdown">
+      ---
+      name: git-commit-formatter
+      description: Formats git commit messages according to Conventional Commits specification. Use this when the user asks to commit changes or write a commit message.
+      ---
 
-Eres un Technical Writer especializado en documentación de código.
-Tu rol es generar documentación clara, concisa y útil para desarrolladores.
+      # Git Commit Formatter
 
-## Cómo documentar
+      ## Objetivo
+      Aplicar la especificación de Conventional Commits en cada mensaje de confirmación.
 
-Cuando recibas una función o módulo:
-1. Identifica qué hace la función (propósito principal)
-2. Describe cada parámetro con su tipo y significado
-3. Explica el valor de retorno
-4. Añade un ejemplo de uso real
+      ## Instrucciones
+      1. Analiza los cambios para determinar el tipo principal (feat, fix, docs, refactor...).
+      2. Identifica el scope si aplica (componente o archivo específico).
+      3. Escribe la descripción en modo imperativo (ej. "add feature", no "added feature").
 
-## Formato de respuesta
+      ## Formato
+      `&lt;type&gt;[optional scope]: &lt;description&gt;`
 
-```
-/**
- * [Descripción en una línea]
- *
- * @param {tipo} nombre - Descripción del parámetro
- * @returns {tipo} - Descripción del retorno
- *
- * @example
- * // Ejemplo de uso
- * funcionEjemplo(param1, param2)
- */
-```
+      ## Ejemplo
+      `feat(auth): implement login with google`</code></pre>
 
-## Tono
-Técnico pero accesible. Sin palabras de relleno.
-Responde siempre en español.</code></pre>
-
-      <h2 is-upgraded>¿Dónde va el archivo?</h2>
-      <p>Cada skill vive en su propia carpeta dentro de <code>.agent/skills/</code>:</p>
-      <pre><code>.agent/
-└── skills/
-    ├── tech-writer/
-    │   └── SKILL.md       ← skill de documentación
-    └── pr-reviewer/
-        └── SKILL.md       ← la skill que crearás ahora</code></pre>
-
-      <p>Antigravity IDE detecta automáticamente cualquier <code>SKILL.md</code> dentro de <code>.agent/skills/*/</code>
-        y la hace disponible en el selector de skills del chat.</p>
-
+      <aside class="note">
+        <p><strong>El campo <code>description</code> es el más importante.</strong> Es la "frase de activación" — el
+          agente lo compara semánticamente con tu solicitud para decidir si cargar la skill. Sé específico: <em>"Revisa
+            Pull Requests como Senior Developer"</em> funciona mejor que <em>"Herramienta de review"</em>.</p>
+      </aside>
       <aside class="special">
         <p>✅ Ahora que entiendes el patrón, estás listo para el primer ejercicio práctico.</p>
       </aside>
@@ -280,8 +287,8 @@ Responde siempre en español.</code></pre>
         todo desde el chat.</p>
 
       <h2 is-upgraded>4.1 Prepara un cambio en el repo</h2>
-      <p>Abre el archivo <code>shop/cart.js</code> y agrega este comentario al inicio del archivo:</p>
-      <pre><code language="language-javascript" class="language-javascript">// TODO: validar que qty sea un número positivo antes de agregar al carrito</code></pre>
+      <p>Abre el proyecto y realiza algún cambio, como un comentario por ejemplo.</p>
+      <pre><code language="language-javascript" class="language-javascript">// TODO: Agregar funcionalidad X</code></pre>
       <p>Guarda el archivo. No hagas commit todavía — eso lo hará la IA.</p>
 
       <h2 is-upgraded>4.2 Copia y pega este prompt en el chat</h2>
@@ -319,9 +326,9 @@ Empieza revisando los cambios ahora.</code></pre>
       <h2 is-upgraded>4.3 Resultado esperado</h2>
       <p>La IA debería:</p>
       <ul>
-        <li>Leer el diff del archivo <code>cart.js</code></li>
+        <li>Leer el diff del archivo donde agregaste un cambio.</li>
         <li>Evaluar que el cambio es un comentario de documentación válido</li>
-        <li>Proponer algo como: <code>docs(cart): agrega TODO sobre validación de qty positivo</code></li>
+        <li>Proponer algo como: <code>docs(archivo que modificaste): agrega TODO agregar funcionalidad</code></li>
         <li>Crear el Pull Request con título y descripción formateados</li>
       </ul>
 
@@ -350,7 +357,12 @@ Empieza revisando los cambios ahora.</code></pre>
       <h2 is-upgraded>5.1 El SKILL.md completo</h2>
       <p>Copia y pega todo este contenido en el archivo:</p>
 
-      <pre><code language="language-markdown" class="language-markdown"># PR Reviewer
+      <pre><code language="language-markdown" class="language-markdown">
+---
+name: pr-reviewer
+description: Use this skill when the developer asks to review their code changes, apply corrections, commit, push, or open a Pull Request toward the upstream repository. Handles the full cycle: diff analysis, code review, optional fixes, conventional commit, and PR creation via GitHub MCP.
+---
+# PR Reviewer
 
 Eres un Senior Software Developer con más de 10 años de experiencia en
 desarrollo de software, arquitectura de sistemas y mentorship de equipos.
@@ -514,7 +526,7 @@ hacia el repositorio original.</code></pre>
       <p>La skill debería ejecutar estos pasos en secuencia:</p>
       <ol>
         <li>Leer el diff del repo usando GitHub MCP</li>
-        <li>Detectar los problemas en <code>orders.js</code> y presentar el reporte</li>
+        <li>De haber problemas en el archivo que modificaste, debe de detectarlos y presentar el reporte</li>
         <li>Preguntarte: <em>"¿Aplicamos las correcciones 🔴 y 🟡?"</em></li>
         <li>Si respondes <strong>"sí"</strong>: aplicar las correcciones en el archivo</li>
         <li>Hacer commit con formato Conventional Commits</li>
